@@ -4,6 +4,8 @@
 }
 
 .cardContent {
+  inline-size: 195px;
+  overflow-wrap: break-word;
   &:last-of-type{
     padding: .5rem;
   }
