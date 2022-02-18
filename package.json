@@ -68,7 +68,6 @@
   "devDependencies": {
     "eslint-watch": "^8.0.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.4",
-    "redux-devtools-extension": "^2.13.9"
+    "lint-staged": "^12.3.4"
   }
 }
