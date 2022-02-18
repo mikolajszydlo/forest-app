@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './../Header/Header';
-import Dashboard from './../../views/Dashboard/Dashboard';
+import Dashboard from './../../views/Dashboard/DashboardContainer';
 
 const MainLayout = () => (
   <>

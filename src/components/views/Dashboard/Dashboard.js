@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import shortid from 'shortid';
 
 import Container from '@mui/material/Container';
@@ -11,28 +12,34 @@ import TableRow from '@mui/material/TableRow';
 import Tile from './../../common/Tile/Tile';
 import IconButton from '@mui/material/IconButton';
 import AddCircle from '@mui/icons-material/AddCircle';
-import UnplannedOrderList from './../../features/UnplannedOrderList/UnplannedOrderList';
+import UnplannedOrderList from '../../features/UnplannedOrderList/UnplannedOrderListContainer';
 
 import styles from './Dashboard.module.scss';
 
-import data from './../../../db/data.json';
-
 const tableHeaderValues = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-const Dashboard = () => {
+const Dashboard = ({tasks}) => {
+
   const [unplannedTaskValues, setUnplannedTaskValues] = React.useState({
     open: false,
-    dayNo: '',
+    taskDate: '',
     teamNo: '',
   });
 
   const displayedWeek = {
-    firstDayOfWeek: new Date('2022-02-12'),
+    firstDayOfWeek: new Date('2022-02-13'),
     lastDayOfWeek: new Date('2022-02-19'),
   };
 
-  const addUnplannedTask = (teamNo, dayNo) => {
-    setUnplannedTaskValues({open: true, dayNo, teamNo});
+  const createDateFromDayNo = dayNo => {
+    const newTaskDate = new Date();
+
+    return (new Date(newTaskDate.setDate(displayedWeek.firstDayOfWeek.getDate() + dayNo)))
+      .toISOString().substring(0, 10);
+  };
+
+  const openUnplannedTasksList = (teamNo, taskDate) => {
+    setUnplannedTaskValues({open: true, taskDate, teamNo});
   };
 
   const getDayNoFromDate = date => (
@@ -48,8 +55,8 @@ const Dashboard = () => {
     );
   };
 
-  const getTaskData = (teamNo, dayNo) => (
-    data.find(
+  const getTaskDataFromStore = (teamNo, dayNo) => (
+    tasks.find(
       item => (item.team === teamNo
       && item.plan
       && !item.completed
@@ -61,7 +68,7 @@ const Dashboard = () => {
 
   return (
     <Container className={styles.contentContainer}>
-      {unplannedTaskValues.open && <UnplannedOrderList handleCompVisibility={setUnplannedTaskValues} dayNo={unplannedTaskValues.dayNo} teamNo={unplannedTaskValues.teamNo}/>}
+      {unplannedTaskValues.open && <UnplannedOrderList handleCompVisibility={setUnplannedTaskValues} taskDate={unplannedTaskValues.taskDate} teamNo={unplannedTaskValues.teamNo}/>}
       <Paper className={styles.paperContainer} elevation={6}>
         <Table>
           <TableHead>
@@ -78,10 +85,10 @@ const Dashboard = () => {
                 <TableCell sx={{ textAlign: 'center', padding: .75 }}>TEAM-{teamNo + 1}</TableCell>
                 {[...Array(tableHeaderValues.length)].map((item, dayNo) => (
                   <TableCell key={shortid.generate()} sx={{ textAlign: 'center', padding: .75 }} >
-                    {getTaskData(teamNo, dayNo) ?
-                      <Tile taskData={getTaskData(teamNo, dayNo)}/>
+                    {getTaskDataFromStore(teamNo, dayNo) ?
+                      <Tile taskData={getTaskDataFromStore(teamNo, dayNo)}/>
                       :
-                      <IconButton color="success" aria-label="upload picture" component="span" onClick={() => addUnplannedTask(teamNo+1, dayNo)}>
+                      <IconButton color="success" aria-label="upload picture" component="span" onClick={() => openUnplannedTasksList(teamNo, createDateFromDayNo(dayNo))}>
                         <AddCircle />
                       </IconButton>
                     }
@@ -94,6 +101,10 @@ const Dashboard = () => {
       </Paper>
     </Container>
   );
+};
+
+Dashboard.propTypes = {
+  tasks: PropTypes.array,
 };
 
 export default Dashboard;

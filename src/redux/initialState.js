@@ -35,6 +35,32 @@ const initialState = {
       completed: false,
       dest: {
         city: 'Borås',
+        street: 'Falugatan',
+        number: '56',
+      },
+    },
+    {
+      id: 4,
+      client: 'CHS Client',
+      date: '',
+      team: '',
+      plan: false,
+      completed: false,
+      dest: {
+        city: 'Karlstad',
+        street: 'Banérgatan',
+        number: '122',
+      },
+    },
+    {
+      id: 5,
+      client: 'SST Client',
+      date: '',
+      team: '',
+      plan: false,
+      completed: false,
+      dest: {
+        city: 'Enköping',
         street: 'Babordsgatan',
         number: '10',
       },

@@ -1,48 +1,30 @@
 /* selectors */
-// export const getAll = ({ products }) => products;
-// export const getCount = ({ products }) => products.length;
+export const getAll = ({ tasks }) => tasks;
 
-// export const getNew = ({ products }) =>
-//   products.filter(item => item.newFurniture === true);
-
-// export const selectProductById = ({ products }, id) =>
-//   products.find(item => item.id === id);
+export const getUnplannedTask = ({ tasks }) =>
+  tasks.filter(item => !item.plan);
 
 /* action name creator */
 const reducerName = 'dashboard';
 const createActionName = name => `app/${reducerName}/${name}`;
 
 /* action types */
-const ASSIGN_FAVOURITE = createActionName('ASSIGN_FAVOURITE');
-const ASSIGN_COMPARE = createActionName('ASSIGN_COMPARE');
-const ASSIGN_USER_STARS = createActionName('ASSING_HOVER');
+const CHANGE_TASK_PARAMS = createActionName('CHANGE_TASK_PARAMS');
 
 /* action creators */
-export const assignFavourite = payload => ({ payload, type: ASSIGN_FAVOURITE });
-export const assignCompare = payload => ({ payload, type: ASSIGN_COMPARE });
-export const assignUserStars = payload => ({ payload, type: ASSIGN_USER_STARS });
+export const changeTaskParams = payload => ({ payload, type: CHANGE_TASK_PARAMS });
 
 /* reducer */
 export default function reducer(statePart = [], action = {}) {
   switch (action.type) {
-    case ASSIGN_FAVOURITE:
-      return statePart.map(product =>
-        product.id === action.payload.id
-          ? { ...product, favourite: action.payload.favourite }
-          : product
+    case CHANGE_TASK_PARAMS:
+      console.log(action.payload);
+      return statePart.map(task =>
+        task.id === action.payload.id
+          ? { ...task, plan: action.payload.plan, date: action.payload.date, team: action.payload.team }
+          : task
       );
-    case ASSIGN_COMPARE:
-      return statePart.map(product =>
-        product.id === action.payload.id
-          ? { ...product, compare: action.payload.compare }
-          : product
-      );
-    case ASSIGN_USER_STARS:
-      return statePart.map(product =>
-        product.id === action.payload.id
-          ? { ...product, userStars: action.payload.userStars }
-          : product
-      );
+
     default:
       return statePart;
   }
