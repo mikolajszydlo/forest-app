@@ -3,14 +3,11 @@
   margin-top: 2rem;
 }
 
-.cardContent {
-  inline-size: 195px;
-  overflow-wrap: break-word;
-  &:last-of-type{
-    padding: .5rem;
-  }
+.row {
+  height: 4rem;
 }
 
 .paperContainer {
   max-width: 100%;
 }
+

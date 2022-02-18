@@ -1,0 +1,15 @@
+.cardContent {
+  text-align: left;
+  width: 100% !important;
+  inline-size: 195px;
+  overflow-wrap: break-word;
+  &:last-of-type{
+    padding: .5rem;
+  }
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
